@@ -1,5 +1,6 @@
 export interface ImgxHookProps {
   src: string;
+  defaultHeight?: boolean;
   delayTime?: number;
   imageLoadType?: 'qiniu' | 'custom' | 'oss';
   placeholderSrc?: string;

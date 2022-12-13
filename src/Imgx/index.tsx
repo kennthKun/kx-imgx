@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { checkWebpFeature, getImgGzip, getImgOssGzip } from '@/utils/imgx';
-import { useIntersection } from '@/utils/use-intersection';
+import { checkWebpFeature, getImgGzip, getImgOssGzip } from '../utils/imgx';
+import { useIntersection } from '../utils/use-intersection';
 import {
   ImgxHookProps,
   LoadedClassNameData,
@@ -26,8 +26,9 @@ let iswebp: boolean = false;
 
 const ImgxHook = ({
   src = '', // 图片url
+  defaultHeight,
   delayTime = 1, // 动画持续时间
-  imageLoadType = 'qiniu', // 低清晰图类型，默认qiniu七牛
+  imageLoadType = 'oss', // 低清晰图类型，默认qiniu七牛
   placeholderSrc = '', // 自定义低清晰url
   className,
   wrapperClassName,
@@ -147,8 +148,11 @@ const ImgxHook = ({
           className
             ? undefined
             : {
-              width: '100%',
-              height: '100%',
+              ...(defaultHeight ? {
+                height: '100%',
+              } : {
+                width: '100%',
+              }),
             }
         }
       />
@@ -163,14 +167,18 @@ const ImgxHook = ({
         width,
         position: 'relative',
         overflow: 'hidden',
+        display: "inline-block",
       }}
       onClick={onClick}
     >
       {loadedImg()}
       <div
         style={{
-          width: '100%',
-          // height: '100%',
+          ...(defaultHeight ? {
+            height: '100%',
+          } : {
+            width: '100%',
+          }),
           position: 'absolute',
           left: 0,
           top: 0,
@@ -182,8 +190,11 @@ const ImgxHook = ({
         <img
           src={handlePlaceholderSrc()}
           style={{
-            width: '100%',
-            // height: '100%',
+            ...(defaultHeight ? {
+              height: '100%',
+            } : {
+              width: '100%',
+            }),
           }}
           alt={alt || ''}
         />
